@@ -86,7 +86,7 @@ Pronto quando:
 
 ## F3b — Cérebro A: direto numa API (A1) ou servidor como ponte (A2)
 
-Só começa com a autorização escrita do Nei dizendo o serviço (Gemini Live ou OpenAI Realtime) e a finalidade, e a
+Só começa com a autorização escrita do Nei dizendo o serviço (provável: OpenRouter) e a finalidade, e a
 escolha entre A1 e A2. A2 também exige mudança no servidor do `robo-cores3-lite`, combinada com ele.
 
 Pronto quando:
@@ -94,7 +94,7 @@ Pronto quando:
 | # | Ação | Saída esperada |
 |---|---|---|
 | 1 | Trocar o cérebro em `segredos.h` e compilar | Código 0; o mesmo firmware serve aos três cérebros |
-| 2 | `grep -rni "api_key\|chave" firmware/chaveiro/*.ino firmware/chaveiro/*.cpp` | Nenhuma chave no código. Na A1, só chave temporária pedida ao PC; na A2, nenhuma no chaveiro |
+| 2 | `grep -rni "api_key\|chave" firmware/chaveiro/*.ino firmware/chaveiro/*.cpp` | Nenhuma chave no código. Na A1, só a chave própria do chaveiro, no `segredos.h` (fora do git), com teto diário; na A2, nenhuma no chaveiro |
 | 3 | Ponto de acesso do celular, longe do Wi-Fi de casa, cinco perguntas (A1) | Cinco respostas; o tempo até o primeiro som em `MEDIDAS.md`, ao lado do da B |
 | 4 | Desligar o celular no meio de uma resposta | Rosto de "sem internet" e volta a PRONTO; não reinicia |
 | 5 | Custo de uma conversa de 5 min, lido no painel da API | Anotado em `MEDIDAS.md` e mostrado ao Nei |
@@ -120,5 +120,6 @@ Pronto quando:
 | Bateria fraca | F2, teste 5 | Avisar o Nei; aceitar uso curto |
 | Placa sem pino de bateria | F1, esquema | Dois resistores num pino livre ou aviso por tempo (decidir com o Nei) |
 | WebSocket da A1 pesado demais para o firmware | F3b | Ficar na A2 (o chaveiro só fala HTTP com o PC) |
-| API sem chave temporária | F3b, documentação do provedor | Sem A1; só A2 |
+| Chave do chaveiro vazada (perdeu o chaveiro) | — | Desativar só essa chave no OpenRouter pelo PC; o teto diário limita o prejuízo |
+| Modelo de áudio do OpenRouter caro ou com voz ruim para criança | F3b, teste 5 e ouvir com o Nei | A2-texto: Whisper e Chatterbox locais, só a resposta no OpenRouter |
 | Perda do chaveiro | — | Token trocável; nada guardado além do Wi-Fi e do token |

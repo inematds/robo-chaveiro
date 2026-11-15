@@ -46,7 +46,8 @@ construir este projeto para as crianças e pessoas levarem como chaveiro". Reapr
 4. Persona, nome e voz do chaveiro (voz de criança? nome próprio?). Isso muda o `persona.txt` do outro projeto,
    ou o servidor passa a escolher a persona pelo `X-Robo-Id`.
 5. Idade das crianças e se as gravações da conversa ficam guardadas no PC (e por quanto tempo).
-6. Cérebro A: qual API (Gemini Live ou OpenAI Realtime) e A1 (direto) ou A2 (ponte)? Só desenho até ele autorizar.
+6. Cérebro A: o Nei disse "provavelmente usaremos openrouter" (15/11) — intenção, não autorização. Falta: autorizar por
+   escrito (serviço e finalidade) e escolher A1 (direto), A2-texto ou A2-áudio. DEFINICAO 4.2 e 4.3.
 
 ## Próxima ação exata
 Quando a placa chegar: F0 do PLANO.md (ligar sem ativar o XiaoZhi, `arduino-cli board list`, fotografar a placa

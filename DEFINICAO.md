@@ -82,15 +82,19 @@ implementações trocáveis, escolhida em `segredos.h`. Tela, botão, som e bate
  tela, botão,        │ Whisper (inemavox) → claude -p (assinatura) → Chatterbox     │
  mic, falante,       └──────────────────────────────────────────────────────────────┘
  bateria   │
-           ├──Wi-Fi──▶ A1: direto numa API de voz em tempo real (chave temporária)
-           └──Wi-Fi──▶ A2: servidor de casa como ponte → API (a chave fica no PC)
+           ├──Wi-Fi──▶ A1: direto no OpenRouter (chave própria do chaveiro, com teto de crédito)
+           └──Wi-Fi──▶ A2: servidor de casa como ponte → OpenRouter (a chave fica no PC)
 ```
 
 | Cérebro | Onde funciona | Demora | Chave da API no chaveiro | Precisa de |
 |---|---|---|---|---|
 | **B, servidor** | Wi-Fi de casa (ou de fora, com túnel até o PC) | 10–14 s quente, 33 s frio (medido no outro projeto) | Nenhuma | PC ligado |
-| **A1, direto** | Qualquer Wi-Fi, inclusive o do celular | perto de 1 s (estimativa do outro projeto, não medida) | Sim, por isso só temporária | Autorização do Nei, custo por uso |
-| **A2, ponte** | Onde o servidor alcançar | perto de 1 s + a ida ao PC (não medido) | Nenhuma | Autorização do Nei, PC ligado, rota nova no servidor de lá |
+| **A1, direto** | Qualquer Wi-Fi, inclusive o do celular | não medida | Sim: uma chave só dele, com teto de crédito | Autorização do Nei, custo por uso |
+| **A2, ponte** | Onde o servidor alcançar | não medida | Nenhuma | Autorização do Nei, PC ligado, rota nova no servidor de lá |
+
+**Provedor provável da forma A: OpenRouter** (Nei, 15/11/2026: "provavelmente usaremos openrouter"). É intenção,
+**não é autorização**: nenhuma chamada, nem de catálogo, até o Nei autorizar por escrito o serviço e a finalidade.
+Gemini Live e OpenAI Realtime, as candidatas do outro projeto, ficam como reserva.
 
 ### 4.1 Cérebro B: servidor (padrão)
 
@@ -103,17 +107,28 @@ chaveiro ──Wi-Fi──▶ servidor do robo-cores3-lite, porta 8770
                       Whisper (inemavox) → claude -p (assinatura, sem ferramentas) → Chatterbox
 ```
 
-### 4.2 Cérebro A1: direto numa API
+### 4.2 Cérebro A1: direto no OpenRouter
 
-Mesmas candidatas do outro projeto (seção 10 de lá): **Gemini Live** e **OpenAI Realtime**, áudio entrando e
-saindo por WebSocket. Sem câmera, a vantagem da visão do Gemini não conta aqui; pesa a demora, o custo e a voz.
-A API da Anthropic não é opção (Claude só pela assinatura).
+O que a documentação do OpenRouter diz (páginas "Audio" e "Management API Keys", lidas no site em 15/11/2026,
+sem chamar a API):
 
-- **Chave:** um chaveiro se perde fácil. A chave de verdade **nunca** vai gravada nele. Desenho: o PC de casa
-  entrega ao chaveiro uma chave temporária, de vida curta (as duas APIs anunciam esse recurso; **não verificado
-  nesta sessão**). Sem isso, a A1 não sai do papel.
-- **Firmware:** WebSocket com TLS e áudio contínuo é mais pesado que o HTTP da B. A PSRAM de 8 MB ajuda; o peso
-  real **não foi medido**.
+| Recurso | O que a página diz | Uso aqui |
+|---|---|---|
+| Áudio de entrada | `input_audio` com o áudio em base64; formato `wav` aceito | O chaveiro manda o WAV de 16 kHz que já grava para a B |
+| Áudio de saída | `/api/v1/chat/completions` com `modalities: ["text","audio"]` e `audio: {voice, format}`; **só por streaming** (SSE); cada pedaço traz `delta.audio.data` (base64) e `delta.audio.transcript` | Toca o áudio enquanto chega e mostra o texto como legenda. O exemplo da página usa `openai/gpt-4o-audio-preview` |
+| Chaves por aparelho | Uma chave de gestão cria chaves comuns com `limit` (teto de crédito), `limitReset: "daily"` e `disabled: true` | O chaveiro leva uma chave só dele, com teto diário baixo. Perdeu: desativa essa chave pelo PC. A chave de gestão nunca sai do PC |
+
+Um turno é **um pedido HTTPS** (sem WebSocket): WAV em base64 + persona → resposta em SSE com áudio e texto.
+É bem mais simples para o firmware que o Gemini Live ou o OpenAI Realtime.
+
+- **Não verificado:** quais modelos de áudio estão no OpenRouter hoje e o preço (ver o catálogo é chamada de
+  API: só com autorização); que formato de áudio sai no streaming (o `wav` pedido pode chegar como pedaços
+  `pcm16`); taxa de amostragem da saída (se não for 16 kHz, o chaveiro reamostra); se a chave comum tem data de
+  validade (a página fala em teto e desativar, não em expirar).
+- **Tamanho:** 15 s de fala dão 480 kB de WAV e uns 640 kB em base64 (conta: 4/3 do tamanho). Cabe na PSRAM de
+  8 MB; mandar em pedaços enquanto codifica, sem montar tudo na memória.
+- **Firmware:** HTTPS com TLS e leitura de SSE no ESP32-S3; peso real **não medido**.
+- **Voz:** a voz é a do modelo (o exemplo usa "alloy"), não o Chatterbox. Para criança, ouvir antes com o Nei.
 - **Persona e segurança de criança:** a persona vai no início da sessão, a mesma combinada para a B. A conversa
   vai para a nuvem do provedor: mesma decisão de privacidade da seção 9, com mais peso.
 - **Botão:** continua "segurar para falar". A API escuta só enquanto o botão está apertado; isso também segura o
@@ -121,8 +136,15 @@ A API da Anthropic não é opção (Claude só pela assinatura).
 
 ### 4.3 Cérebro A2: servidor como ponte
 
-O chaveiro fala com o servidor de casa como na B; o servidor repassa para a API. A chave fica no PC. O firmware
-é quase o mesmo da B. Precisa de uma rota nova no servidor do `robo-cores3-lite`: **mudança no outro projeto,
+O chaveiro fala com o servidor de casa como na B; o servidor repassa para o OpenRouter. A chave fica no PC. O
+firmware é o mesmo da B (mesma rota `/v1/conversa`). Duas formas de o servidor usar o OpenRouter:
+
+| Variante | Caminho no servidor | Voz |
+|---|---|---|
+| A2-texto | Whisper local → modelo de texto no OpenRouter (no lugar do `claude -p`) → Chatterbox local | A do Chatterbox, igual à B |
+| A2-áudio | WAV direto para um modelo de áudio do OpenRouter → áudio de volta | A do modelo |
+
+A A2-texto é a que mais aproveita o que já existe: só troca a etapa da resposta. Precisa de uma rota nova no servidor do `robo-cores3-lite`: **mudança no outro projeto,
 só com o Nei**, e só depois da autorização da API.
 
 ### 4.4 Regras para os três
@@ -151,7 +173,7 @@ O robô de mesa fica parado ao lado do PC; o chaveiro anda no bolso. Por isso el
 
 | Ideia | Como | Contra |
 |---|---|---|
-| Celular + cérebro A1 | Ponto de acesso do celular; o chaveiro fala direto com a API (seção 4.2) | **Exige autorização do Nei**; custo; chave temporária obrigatória |
+| Celular + cérebro A1 | Ponto de acesso do celular; o chaveiro fala direto com a API (seção 4.2) | **Exige autorização do Nei**; custo; chave própria com teto diário |
 | Celular + cérebro B com túnel | Ponto de acesso do celular + túnel/VPN até o PC de casa | Ferramenta nova (avisar o Nei); o PC continua ligado; a porta do servidor fica alcançável de fora: token forte |
 | Celular + cérebro A2 | Igual ao túnel, com o servidor repassando para a API | Soma os contras dos dois |
 | App no celular | O celular grava e fala; o chaveiro só mostra o rosto (Bluetooth) | Outro projeto inteiro |
