@@ -16,6 +16,8 @@ projeto no papel e o servidor de casa, que já funciona num projeto irmão; a pl
 
 Guia completo (landing + passo a passo): **https://inematds.github.io/robo-chaveiro/guia/**
 
+🎬 Vídeo: https://www.youtube.com/watch?v=735cjrp4KiM · Short: https://youtube.com/shorts/sbQqWAy1ByE
+
 ## Mais detalhes
 
 A placa é a SpotPear ESP32-S3 1,54" (provável "muma", versão "emo"), comprada no AliExpress em 15/11/2026 por

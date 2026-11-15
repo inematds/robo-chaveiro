@@ -53,3 +53,4 @@ lives6: em produção (cadeia explicavideo; fase 2 pelo vigia continua, msg 4781
   entrega (16:9 e, 1 h depois, o 9:16 no lives6). Andamento: `tail ~/projetos/explicavideos/textos/robo-chaveiro/cadeia.log`.
 - Fase 2 (vigia `continua`, nome `ev2-robo-chaveiro`): põe o vídeo no guia (3 idiomas + READMEs), card de vídeo no
   portal e resposta no tópico 3005.
+- lives6: feito 15/11/2026 — 16:9 https://www.youtube.com/watch?v=735cjrp4KiM · 9:16 https://youtube.com/shorts/sbQqWAy1ByE (vídeo no guia PT/EN/ES)

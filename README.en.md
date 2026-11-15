@@ -12,6 +12,8 @@ This is an open project to turn a small board with a 1.54" screen into a kind of
 
 Complete guide (landing page + step-by-step instructions): **https://inematds.github.io/robo-chaveiro/guia/en/**
 
+🎬 Video: https://www.youtube.com/watch?v=735cjrp4KiM · Short: https://youtube.com/shorts/sbQqWAy1ByE
+
 ## More details
 
 The board is the SpotPear ESP32-S3 1.54" (probably “muma,” “emo” version), purchased on AliExpress on 15/11/2026 for R$ 132,14. The home “brain” is the server that already works in [robo-cores3-lite](https://github.com/inematds/robo-cores3-lite) (option B): Whisper → `claude -p` through the subscription → Chatterbox voice. Also designed: brain A1 (directly through OpenRouter) and A2 (server as a bridge), for use away from home; a low-battery warning; the parents’ dashboard; and animal bodies with the keychain as the face. None of this has been implemented, and no API has been called.

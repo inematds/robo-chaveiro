@@ -12,6 +12,8 @@ Este es un proyecto abierto para transformar una plaquita con pantalla de 1,54" 
 
 Guía completa (landing + paso a paso): **https://inematds.github.io/robo-chaveiro/guia/es/**
 
+🎬 Video: https://www.youtube.com/watch?v=735cjrp4KiM · Short: https://youtube.com/shorts/sbQqWAy1ByE
+
 ## Más detalles
 
 La placa es la SpotPear ESP32-S3 1,54" (probablemente «muma», versión «emo»), comprada en AliExpress el 15/11/2026 por R$ 132,14. El «cerebro» de casa es el servidor que ya funciona en
