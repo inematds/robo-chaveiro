@@ -8,8 +8,13 @@ na [DEFINICAO.md](DEFINICAO.md).
 | F0 | Placa chegou, liga e carrega | A entrega |
 | F1 | Firmware grava a fala e envia ao servidor do robo-cores3-lite | F0; aviso ao Nei antes de instalar biblioteca |
 | F2 | O chaveiro toca a resposta e mostra o rosto | F1 |
+| F2b | Aviso de bateria acabando, que funciona sem rede | F2; pino da bateria achado no esquema |
 | F3 | Chaveiro de verdade: argola, capinha, uso por criança | F2 e decisões do Nei |
+| F3b | Cérebro A (A1 direto ou A2 ponte), para funcionar longe de casa | Autorização escrita do Nei (serviço e finalidade) |
 | F4 | Opcionais | Decisão do Nei, um por um |
+
+Os três cérebros (B servidor, A1 direto, A2 ponte) e a bateria estão desenhados na DEFINICAO.md, seções 4, 5 e 7.
+O firmware nasce com a camada "cérebro" separada desde a F1, mesmo que só a B exista.
 
 ## F0 — Placa chegou e liga
 
@@ -24,8 +29,9 @@ Pronto quando:
 
 ## F1 — Grava e envia para o servidor
 
-O que fazer: ler os esquemas V1/V2 da wiki para achar os pinos do microfone e do falante; escolher a placa no
-compilador; escrever `firmware/chaveiro/` com o botão BOOT como "segurar para falar".
+O que fazer: ler os esquemas V1/V2 da wiki para achar os pinos do microfone, do falante **e da bateria** (divisor
+de tensão? pino de "carregando"?); escolher a placa no compilador; escrever `firmware/chaveiro/` com o botão BOOT
+como "segurar para falar", a camada `cerebro_b` separada do hardware e uma lista de redes Wi-Fi (casa, celular).
 
 Pronto quando, com `python3 ~/projetos/robo-cores3-lite/servidor/servidor.py` no ar:
 
@@ -47,9 +53,26 @@ Pronto quando:
 | 2 | Ouvir a 50 cm numa sala comum | Dá para entender todas as palavras |
 | 3 | Desligar o servidor e falar | Rosto de erro por 2 s e volta a pronto; não reinicia |
 | 4 | 30 min parado e uma pergunta | Responde (Wi-Fi reconecta sozinho) |
-| 5 | Bateria cheia, uma pergunta a cada 2 min | Minutos até desligar anotados na DEFINICAO.md, seção 7 |
+| 5 | Bateria cheia, uma pergunta a cada 2 min, gravando a tensão a cada minuto | Minutos até desligar e a curva de tensão em `MEDIDAS.md`; daí saem os degraus da DEFINICAO.md, seção 7.1 |
 
 O tempo do botão solto até o primeiro som vai para uma tabela `MEDIDAS.md` neste projeto.
+
+## F2b — Aviso de bateria acabando
+
+Antes: gerar uma vez as frases de bateria ("estou ficando com sono...", "tchau, vou dormir") pelo Chatterbox local
+(inemavox, `/api/jobs/tts/upload`) e guardá-las no firmware.
+
+Pronto quando:
+
+| # | Ação | Saída esperada |
+|---|---|---|
+| 1 | Monitor serial a cada 30 s | Linha `BAT: <tensão> V <nível>%`; parado, a leitura não varia mais que o anotado na MEDIDAS.md |
+| 2 | Descarregar até o degrau "cansado" | Ícone e olhos de sono na tela |
+| 3 | Descarregar até o degrau "pedindo carga", **com o Wi-Fi desligado** | Fala a frase de bateria da memória dele (sem rede) |
+| 4 | Descarregar até o degrau "dormindo" | Diz tchau, apaga e entra em sono profundo; não fica ligando e desligando |
+| 5 | Ligar o cabo | Acorda; com pino de "carregando", mostra o raio e não avisa de bateria fraca |
+
+Se o esquema não tiver pino de bateria: parar e decidir com o Nei (adaptação de hardware ou aviso por tempo).
 
 ## F3 — Chaveiro e capinha
 
@@ -61,12 +84,29 @@ Pronto quando:
 - Persona de criança combinada com o Nei e testada em 10 perguntas de criança (nenhuma resposta assusta ou pede
   dado pessoal; conferido pelo Nei).
 
+## F3b — Cérebro A: direto numa API (A1) ou servidor como ponte (A2)
+
+Só começa com a autorização escrita do Nei dizendo o serviço (Gemini Live ou OpenAI Realtime) e a finalidade, e a
+escolha entre A1 e A2. A2 também exige mudança no servidor do `robo-cores3-lite`, combinada com ele.
+
+Pronto quando:
+
+| # | Ação | Saída esperada |
+|---|---|---|
+| 1 | Trocar o cérebro em `segredos.h` e compilar | Código 0; o mesmo firmware serve aos três cérebros |
+| 2 | `grep -rni "api_key\|chave" firmware/chaveiro/*.ino firmware/chaveiro/*.cpp` | Nenhuma chave no código. Na A1, só chave temporária pedida ao PC; na A2, nenhuma no chaveiro |
+| 3 | Ponto de acesso do celular, longe do Wi-Fi de casa, cinco perguntas (A1) | Cinco respostas; o tempo até o primeiro som em `MEDIDAS.md`, ao lado do da B |
+| 4 | Desligar o celular no meio de uma resposta | Rosto de "sem internet" e volta a PRONTO; não reinicia |
+| 5 | Custo de uma conversa de 5 min, lido no painel da API | Anotado em `MEDIDAS.md` e mostrado ao Nei |
+| 6 | 10 perguntas de criança com a persona do chaveiro | Nenhuma resposta assusta ou pede dado pessoal (conferido pelo Nei) |
+
 ## F4 — Opcionais (um por um, só com decisão do Nei)
 
 | Opcional | Critério de pronto |
 |---|---|
 | Frases de espera tocadas pela placa | Toca uma frase da banca em menos de 1 s depois de soltar o botão; não repete as 8 últimas |
-| Funcionar fora de casa (celular ponte ou opção A) | Escolha e autorização do Nei; 5 perguntas fora de casa respondidas |
+| Troca automática de cérebro | Rede de casa à vista → B; senão → A1. Cinco trocas de rede sem reiniciar |
+| Cérebro B fora de casa por túnel | Ferramenta nova avisada ao Nei; 5 perguntas pelo celular respondidas pelo PC de casa |
 | Palavra de ativação | Modelo local novo: só com aprovação; 9 de 10 a 50 cm |
 | Guia e publicação | Só com a ordem do Nei: repo, guia em `guia/`, portal |
 
@@ -78,4 +118,7 @@ Pronto quando:
 | Mic e falante não funcionam juntos | F1, esquema | Meio a meio, como no robô de mesa |
 | Demora de 10–14 s parece longa para criança | F2 | Frases de espera; rosto de "pensando" animado |
 | Bateria fraca | F2, teste 5 | Avisar o Nei; aceitar uso curto |
+| Placa sem pino de bateria | F1, esquema | Dois resistores num pino livre ou aviso por tempo (decidir com o Nei) |
+| WebSocket da A1 pesado demais para o firmware | F3b | Ficar na A2 (o chaveiro só fala HTTP com o PC) |
+| API sem chave temporária | F3b, documentação do provedor | Sem A1; só A2 |
 | Perda do chaveiro | — | Token trocável; nada guardado além do Wi-Fi e do token |

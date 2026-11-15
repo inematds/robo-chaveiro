@@ -5,7 +5,9 @@ Para crianças e para qualquer pessoa. A placa é a SpotPear ESP32-S3 1,54" (pro
 comprada no AliExpress em 15/11/2026 por R$ 132,14.
 
 O "cérebro" é o servidor local que já funciona no `~/projetos/robo-cores3-lite` (opção B): Whisper →
-`claude -p` pela assinatura → voz Chatterbox. 10 a 14 s por resposta, medido lá.
+`claude -p` pela assinatura → voz Chatterbox. 10 a 14 s por resposta, medido lá. Desenhados também: cérebro A1
+(direto numa API de voz) e A2 (servidor como ponte), para usar longe de casa, e o aviso de bateria acabando.
+Nenhum dos dois está implementado, e nenhuma API foi chamada.
 
 **Estado em 15/11/2026: só a definição. Placa a caminho, nenhum firmware.**
 
@@ -31,9 +33,11 @@ Legenda: 🧠 sessão com o Nei · ⚙️ comando/script · 🤖 `claude -p`
 | 6 | Achar pinos de áudio nos esquemas e escolher a placa no compilador | [PLANO.md](PLANO.md), F1 | 🧠 | não |
 | 7 | Instalar biblioteca de tela (avisar o Nei antes) | a definir | ⚙️ | não |
 | 8 | Escrever, compilar e gravar o firmware | `arduino-cli compile/upload --fqbn <a definir> firmware/chaveiro` | ⚙️ | não |
-| 9 | Conversar na bancada: 5 perguntas seguidas | [PLANO.md](PLANO.md), F2 | 🧠 | não |
-| 10 | Argola, capinha, persona de criança | [PLANO.md](PLANO.md), F3 | 🧠 | não |
-| 11 | Opcionais (fora de casa, espera, palavra de ativação, guia) | [PLANO.md](PLANO.md), F4 | 🧠 | não |
+| 9 | Conversar na bancada: 5 perguntas seguidas (cérebro B) | [PLANO.md](PLANO.md), F2 | 🧠 | não |
+| 10 | Gravar as frases de bateria (Chatterbox local) e testar o aviso sem rede | [PLANO.md](PLANO.md), F2b | ⚙️ 🧠 | não |
+| 11 | Argola, capinha, persona de criança | [PLANO.md](PLANO.md), F3 | 🧠 | não |
+| 12 | Cérebro A (A1 direto ou A2 ponte), só com autorização escrita do Nei | [PLANO.md](PLANO.md), F3b | 🧠 | não: só desenho |
+| 13 | Opcionais (troca automática, túnel, espera, palavra de ativação, guia) | [PLANO.md](PLANO.md), F4 | 🧠 | não |
 
 O único passo com `claude -p` é o 5, feito pelo servidor do robo-cores3-lite, pela assinatura, sem ferramentas.
 

@@ -12,6 +12,13 @@ construir este projeto para as crianças e pessoas levarem como chaveiro". Reapr
 - Pasta criada com DEFINICAO, PLANO, README, CLAUDE, FALHAS e este handoff. Fotos em `referencias/`.
 - Repo git local, sem remoto.
 
+## Feito depois (15/11/2026, 2ª rodada)
+- Pedido do Nei: desenhar o uso "direto numa API e também através de um servidor", sem câmera, e o aviso de bateria
+  acabando, porque o chaveiro é móvel. Feito só no papel: DEFINICAO seções 4 (cérebros B, A1, A2), 5 (fora de casa,
+  várias redes Wi-Fi) e 7.1 (bateria em três degraus, frases gravadas no flash, que funcionam sem rede).
+  PLANO: novas fases F2b (bateria) e F3b (cérebro A).
+- A wiki do muma não lista pino de bateria. Conferir no esquema V1/V2 na F1.
+
 ## O que NÃO fazer
 - Não ativar o XiaoZhi (nuvem de terceiros) nem configurar o firmware de fábrica no Wi-Fi sem o Nei.
 - Não chamar nenhuma API externa. Opção A só com autorização escrita do Nei (serviço e finalidade).
@@ -38,6 +45,7 @@ construir este projeto para as crianças e pessoas levarem como chaveiro". Reapr
 3. Fora de casa: aceitar "só no Wi-Fi de casa", celular como ponte, ou estudar a opção A com API?
 4. Persona, nome e voz do chaveiro (voz de criança? nome próprio?). Isso muda o `persona.txt` do outro projeto,
    ou o servidor passa a escolher a persona pelo `X-Robo-Id`.
+6. Cérebro A: qual API (Gemini Live ou OpenAI Realtime) e A1 (direto) ou A2 (ponte)? Só desenho até ele autorizar.
 5. Idade das crianças e se as gravações da conversa ficam guardadas no PC (e por quanto tempo).
 
 ## Próxima ação exata

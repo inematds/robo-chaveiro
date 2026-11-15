@@ -67,12 +67,74 @@ da wiki.
 | Mostra frases de espera enquanto pensa | Não escuta o tempo todo na primeira versão |
 | Carrega pelo USB-C | Autonomia não medida |
 
-## 4. Como conversa (opção B, reaproveitada)
+## 4. Como conversa: dois cérebros, o mesmo chaveiro
+
+Pedido do Nei, 15/11/2026: "faça só o projeto de como poder usar ela direto numa api e também através de um
+servidor (...) pegar a dica com o outro projeto (...) aqui não tem câmera, mas o nosso aqui é móvel, ele tem
+avisar se a bateria está chegando ao fim". É desenho: **nada implementado, nenhuma API chamada.**
+
+Mesma ideia do `robo-cores3-lite` (DEFINICAO de lá, seções 4, 9 e 10): o firmware tem uma camada "cérebro" com
+implementações trocáveis, escolhida em `segredos.h`. Tela, botão, som e bateria ficam na camada de hardware.
 
 ```
-chaveiro ──Wi-Fi de casa──▶ servidor do robo-cores3-lite, porta 8770
-                              Whisper (inemavox) → claude -p (assinatura, sem ferramentas) → Chatterbox
+                     ┌── B: servidor de casa (padrão) ──────────────────────────────┐
+ chaveiro ──Wi-Fi──▶ │ robo-cores3-lite/servidor, porta 8770                        │
+ tela, botão,        │ Whisper (inemavox) → claude -p (assinatura) → Chatterbox     │
+ mic, falante,       └──────────────────────────────────────────────────────────────┘
+ bateria   │
+           ├──Wi-Fi──▶ A1: direto numa API de voz em tempo real (chave temporária)
+           └──Wi-Fi──▶ A2: servidor de casa como ponte → API (a chave fica no PC)
 ```
+
+| Cérebro | Onde funciona | Demora | Chave da API no chaveiro | Precisa de |
+|---|---|---|---|---|
+| **B, servidor** | Wi-Fi de casa (ou de fora, com túnel até o PC) | 10–14 s quente, 33 s frio (medido no outro projeto) | Nenhuma | PC ligado |
+| **A1, direto** | Qualquer Wi-Fi, inclusive o do celular | perto de 1 s (estimativa do outro projeto, não medida) | Sim, por isso só temporária | Autorização do Nei, custo por uso |
+| **A2, ponte** | Onde o servidor alcançar | perto de 1 s + a ida ao PC (não medido) | Nenhuma | Autorização do Nei, PC ligado, rota nova no servidor de lá |
+
+### 4.1 Cérebro B: servidor (padrão)
+
+Reaproveitado sem mudar o servidor. O chaveiro usa a rota principal de lá, `POST /v1/conversa` (resposta por
+partes: `O` ouvido, `T` texto, `A` áudio, `E` frase de espera, `F` fim, `X` erro), e `POST /v1/aquecer` quando o
+botão é apertado, para os modelos subirem enquanto a pessoa fala. `/v1/foto` não é usada: não tem câmera.
+
+```
+chaveiro ──Wi-Fi──▶ servidor do robo-cores3-lite, porta 8770
+                      Whisper (inemavox) → claude -p (assinatura, sem ferramentas) → Chatterbox
+```
+
+### 4.2 Cérebro A1: direto numa API
+
+Mesmas candidatas do outro projeto (seção 10 de lá): **Gemini Live** e **OpenAI Realtime**, áudio entrando e
+saindo por WebSocket. Sem câmera, a vantagem da visão do Gemini não conta aqui; pesa a demora, o custo e a voz.
+A API da Anthropic não é opção (Claude só pela assinatura).
+
+- **Chave:** um chaveiro se perde fácil. A chave de verdade **nunca** vai gravada nele. Desenho: o PC de casa
+  entrega ao chaveiro uma chave temporária, de vida curta (as duas APIs anunciam esse recurso; **não verificado
+  nesta sessão**). Sem isso, a A1 não sai do papel.
+- **Firmware:** WebSocket com TLS e áudio contínuo é mais pesado que o HTTP da B. A PSRAM de 8 MB ajuda; o peso
+  real **não foi medido**.
+- **Persona e segurança de criança:** a persona vai no início da sessão, a mesma combinada para a B. A conversa
+  vai para a nuvem do provedor: mesma decisão de privacidade da seção 9, com mais peso.
+- **Botão:** continua "segurar para falar". A API escuta só enquanto o botão está apertado; isso também segura o
+  custo.
+
+### 4.3 Cérebro A2: servidor como ponte
+
+O chaveiro fala com o servidor de casa como na B; o servidor repassa para a API. A chave fica no PC. O firmware
+é quase o mesmo da B. Precisa de uma rota nova no servidor do `robo-cores3-lite`: **mudança no outro projeto,
+só com o Nei**, e só depois da autorização da API.
+
+### 4.4 Regras para os três
+
+- **Nenhuma chamada de API antes de o Nei autorizar por escrito o serviço e a finalidade.** Escolher A1 ou A2
+  também é decisão dele.
+- Os mesmos estados do outro projeto: PRONTO → OUVINDO → PENSANDO → FALANDO → PRONTO; ERRO por 2 s.
+- O cérebro sem rede dá rosto de "sem internet" e volta a PRONTO; nunca reinicia a placa.
+- Troca automática (opcional, F4): se a rede de casa aparece, usa B; se não, A1. Só depois de as duas
+  funcionarem sozinhas.
+
+### 4.5 Detalhes da B (medidas do outro projeto)
 
 - Mesmo protocolo da DEFINICAO do robo-cores3-lite, seção 11: `POST /v1/fala` com WAV 16 kHz, 16 bits, mono,
   de 0,5 a 15 s; cabeçalhos `X-Robo-Token` e `X-Robo-Id` (ex.: `chaveiro-1`); volta WAV no mesmo formato com
@@ -82,14 +144,16 @@ chaveiro ──Wi-Fi de casa──▶ servidor do robo-cores3-lite, porta 8770
 - O servidor é usado onde está: `python3 ~/projetos/robo-cores3-lite/servidor/servidor.py`. Este projeto não
   copia o código. Mudança no servidor (persona, novo `X-Robo-Id`) é mudança no outro projeto: só com o Nei.
 
-## 5. Fora de casa (nada decidido, só ideias)
+## 5. Fora de casa: ele é móvel (nada decidido)
 
-A opção B só funciona no Wi-Fi de casa, com o PC ligado. Ideias para levar ao Nei:
+O robô de mesa fica parado ao lado do PC; o chaveiro anda no bolso. Por isso ele guarda **mais de uma rede**
+(casa e o ponto de acesso do celular, em `segredos.h`) e tenta na ordem. O ponto de acesso precisa ser 2,4 GHz.
 
 | Ideia | Como | Contra |
 |---|---|---|
-| Celular como ponte | Ponto de acesso 2,4 GHz do celular (a wiki diz que funciona) + túnel/VPN até o PC de casa | Precisa de túnel; o PC continua ligado; consumo do celular |
-| Opção A, API direta | Como na seção 10 do robo-cores3-lite (Gemini Live, OpenAI Realtime) | **Exige autorização explícita do Nei**; chave gravada num objeto fácil de perder; custo |
+| Celular + cérebro A1 | Ponto de acesso do celular; o chaveiro fala direto com a API (seção 4.2) | **Exige autorização do Nei**; custo; chave temporária obrigatória |
+| Celular + cérebro B com túnel | Ponto de acesso do celular + túnel/VPN até o PC de casa | Ferramenta nova (avisar o Nei); o PC continua ligado; a porta do servidor fica alcançável de fora: token forte |
+| Celular + cérebro A2 | Igual ao túnel, com o servidor repassando para a API | Soma os contras dos dois |
 | App no celular | O celular grava e fala; o chaveiro só mostra o rosto (Bluetooth) | Outro projeto inteiro |
 | Só em casa | Aceitar o limite: é "robô de casa que cabe no bolso" | Menos mágico |
 
@@ -103,6 +167,38 @@ A opção B só funciona no Wi-Fi de casa, com o PC ligado. Ideias para levar ao
 - **Tela:** rosto de olhos grandes, como o "emo" das fotos. Legenda curta talvez: 240 × 240 é pouco espaço.
 
 ## 7. Energia e bateria
+
+### 7.1 Aviso de bateria acabando (pedido do Nei, 15/11/2026)
+
+O robô de mesa vive no cabo; o chaveiro vive na bateria. Ele precisa avisar antes de apagar.
+
+**Como medir:** a wiki do muma (lida em 15/11/2026) lista os pinos da tela, do SD e do toque, mas **nenhum pino
+de bateria**. Falta conferir no esquema V1/V2 se a bateria chega a uma entrada analógica do ESP32-S3 (divisor de
+tensão) e se o carregador tem um pino que diz "carregando". Três casos:
+
+| O esquema mostra | O firmware faz |
+|---|---|
+| Divisor de tensão num pino analógico | Lê a tensão a cada 30 s (média de várias leituras, fora da hora em que o falante toca, porque o falante derruba a tensão) |
+| Também um pino de "carregando" | Mostra um raio na tela e não avisa de bateria fraca enquanto carrega |
+| Nenhum dos dois | Não dá para medir pela placa. Saída: adaptação de hardware (dois resistores) ou só um aviso por tempo de uso. Decidir com o Nei |
+
+**Os limites saem da medida, não de chute.** Na F2 (teste 5) o chaveiro descarrega de cheio até apagar,
+gravando a tensão a cada minuto. Dessa curva saem os três degraus:
+
+| Degrau | Quando (calibrado na F2) | O chaveiro faz |
+|---|---|---|
+| Cansado | ~20% do tempo de uso restante | Ícone de bateria na tela; olhos de sono no rosto PRONTO |
+| Pedindo carga | ~10% restante | Fala uma vez "estou ficando com sono, me coloca para carregar" e repete a cada nova conversa; o falante baixa o volume |
+| Dormindo | ~5% restante | Diz tchau, desliga o Wi-Fi e a tela e entra em sono profundo; só volta com o cabo ou com o botão |
+
+- **O aviso funciona sem rede.** As frases de bateria são WAVs gravados uma vez pelo Chatterbox local
+  (inemavox, rota `/api/jobs/tts/upload`), guardados no flash do chaveiro. Valem para os três cérebros.
+- Na B, o chaveiro pode mandar o nível no cabeçalho `X-Bateria` (o servidor de hoje ignora; usar exige mudar o
+  outro projeto, só com o Nei). Serve para o servidor dar respostas mais curtas com a bateria baixa.
+- Economia: tela apaga após 30 s em PRONTO; Wi-Fi em modo de economia entre conversas; sono profundo depois de
+  5 min parado, acordando pelo BOOT. O tempo de reconectar ao acordar entra na MEDIDAS.md.
+
+### 7.2 Carga e segurança
 
 - A placa tem gestão de bateria e LED de carga (wiki). A bateria da versão de chaveiro: **não verificada**.
 - Bateria de lítio num objeto de criança: só com proteção, dentro da capinha, sem fio solto. Nunca carregar
