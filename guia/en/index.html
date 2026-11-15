@@ -179,9 +179,9 @@
   <h2>A face in your pocket, with the brain somewhere else</h2>
   <p class="sub">A keychain-sized board can’t understand speech or think up a response on its own; that takes large models. So it’s just the body: it listens, shows a face, and speaks. The thinking happens elsewhere.</p>
   <div class="grid g3">
-    <div class="card"><h3>🔑 The body, in your pocket</h3><p>A SpotPear board with a 1.54" screen, microphone, speaker, two buttons, and a silicone case with a loop for a key ring. The child holds the button, speaks for up to 15 seconds, and releases it. There’s no camera.</p></div>
+    <div class="card"><h3>🔑 The body, in your pocket</h3><p>A SpotPear board with a 1.54" screen, microphone, speaker, two buttons, and a case with a hole for hanging. The child holds the button, speaks for up to 15 seconds, and releases it. There’s no camera.</p></div>
     <div class="card"><h3>🧠 The brain, at home or online</h3><p>At home, a program on the computer turns speech into text, asks an AI for a response (Claude, paid by subscription, not per question), and generates the voice right there. Away from home, the design includes an online AI service (OpenRouter), which hasn’t been authorized or tested yet.</p></div>
-    <div class="card"><h3>🔋 Warns before shutting down</h3><p>It runs on battery power. The design: as the battery runs low, it shows sleepy eyes, then says “please plug me in,” and finally says goodbye and goes to sleep. The phrases are stored on the device, so the warning works without internet.</p></div>
+    <div class="card"><h3>🔋 Warns before shutting down</h3><p>It was designed to run on battery power (whether the keychain version includes a battery, and its capacity, have not yet been verified). The design: as the battery runs low, it shows sleepy eyes, then says “please plug me in,” and finally says goodbye and goes to sleep. The phrases are stored on the device, so the warning works without internet.</p></div>
   </div>
   <p class="nota"><strong>Safety by design:</strong> use a key ring or carabiner, never a neck cord without a breakaway clasp. No small parts that can come loose. The project rule is that the robot won’t ask for a child’s full name, address, or school. On the home server, the AI has no tools: it only writes text and can’t do anything on the computer.</p>
 </div></section>
@@ -213,7 +213,7 @@
       <tr><td>Status</td><td>Exists (sibling project)</td><td colspan="2">Design only; no requests have been made</td></tr>
     </tbody>
   </table></div>
-  <p class="nota">According to OpenRouter’s documentation, a full turn fits in one request: the recording is sent, and the response comes back in audio and text chunks, which the keychain plays as they arrive. Which voice models are available there today and how much they cost haven’t been checked yet.</p>
+  <p class="nota">According to the <a href="https://openrouter.ai/docs/guides/overview/multimodal/audio" target="_blank" rel="noopener">OpenRouter documentation</a>, a full turn fits in one request: the recording is sent, and the response comes back in audio and text chunks, which the keychain plays as they arrive. Which voice models are available there today and how much they cost haven’t been checked yet.</p>
 </div></section>
 
 <section id="pais"><div class="wrap">
@@ -314,7 +314,7 @@
 
   <div class="step"><div class="b">3</div><div>
     <h3>Test the brain with a recording</h3>
-    <p>In another terminal, send the test recording. It’s the same request the keychain will make.</p>
+    <p>In another terminal, in the same folder as in step 1, send the test recording. It’s the same request the keychain will make.</p>
 <pre><span class="k">cd</span> robo-cores3-lite
 <span class="k">python3</span> servidor/testar.py servidor/teste/pergunta.wav</pre>
   </div></div>

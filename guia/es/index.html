@@ -179,9 +179,9 @@
   <h2>Una cara en el bolsillo, el cerebro en otro lugar</h2>
   <p class="sub">Una pequeña placa de llavero no entiende el habla ni piensa la respuesta por sí sola: para eso hacen falta modelos grandes. Así que solo es el cuerpo: escucha, muestra la cara y habla. El pensamiento ocurre fuera de ella.</p>
   <div class="grid g3">
-    <div class="card"><h3>🔑 El cuerpo, en el bolsillo</h3><p>Una placa SpotPear con pantalla de 1,54", micrófono, altavoz, dos botones y una funda de silicona con orificio para la anilla. El niño mantiene pulsado el botón, habla hasta 15 segundos y lo suelta. No tiene cámara.</p></div>
+    <div class="card"><h3>🔑 El cuerpo, en el bolsillo</h3><p>Una placa SpotPear con pantalla de 1,54", micrófono, altavoz, dos botones y una funda con un orificio para colgar. El niño mantiene pulsado el botón, habla hasta 15 segundos y lo suelta. No tiene cámara.</p></div>
     <div class="card"><h3>🧠 El cerebro, en casa o en internet</h3><p>En casa, un programa del ordenador convierte el habla en texto, pide una respuesta a una IA (Claude, con pago mensual y no por pregunta) y genera la voz allí mismo. Cuando está lejos de casa, el diseño prevé un servicio de IA por internet (OpenRouter), que aún no ha sido autorizado ni probado.</p></div>
-    <div class="card"><h3>🔋 Avisa antes de apagarse</h3><p>Funciona con batería. El diseño: cuando se esté agotando, muestra ojos soñolientos, luego pide «ponme a cargar» y, al final, se despide y se duerme. Las frases quedan grabadas en el dispositivo para que el aviso funcione incluso sin internet.</p></div>
+    <div class="card"><h3>🔋 Avisa antes de apagarse</h3><p>Fue diseñado para funcionar con batería (aún no se ha verificado si la versión de llavero incluye una batería ni de qué capacidad). El diseño: cuando se esté agotando, muestra ojos soñolientos, luego pide «ponme a cargar» y, al final, se despide y se duerme. Las frases quedan grabadas en el dispositivo para que el aviso funcione incluso sin internet.</p></div>
   </div>
   <p class="nota"><strong>Seguridad desde el diseño:</strong> anilla o mosquetón, nunca un cordón alrededor del cuello del niño sin cierre de seguridad. Ninguna pieza pequeña que pueda desprenderse. El robot nunca pedirá el nombre completo, la dirección ni la escuela: esa es una regla del proyecto. Además, en el servidor doméstico, la IA funciona sin herramientas: solo escribe texto, no puede modificar nada en el ordenador.</p>
 </div></section>
@@ -213,7 +213,7 @@
       <tr><td>Estado</td><td>Existe (proyecto hermano)</td><td colspan="2">Solo está diseñado; no se ha hecho ninguna llamada</td></tr>
     </tbody>
   </table></div>
-  <p class="nota">Según la documentación de OpenRouter, un turno completo cabe en una sola solicitud: se envía la grabación y la respuesta vuelve en fragmentos de audio y texto, que el llavero reproduce a medida que llegan. Aún no se han comprobado qué modelos de voz están disponibles ni cuánto cuestan.</p>
+  <p class="nota">Según la <a href="https://openrouter.ai/docs/guides/overview/multimodal/audio" target="_blank" rel="noopener">documentación de OpenRouter</a>, un turno completo cabe en una sola solicitud: se envía la grabación y la respuesta vuelve en fragmentos de audio y texto, que el llavero reproduce a medida que llegan. Aún no se han comprobado qué modelos de voz están disponibles ni cuánto cuestan.</p>
 </div></section>
 
 <section id="pais"><div class="wrap">
@@ -314,7 +314,7 @@
 
   <div class="step"><div class="b">3</div><div>
     <h3>Probar el cerebro con una grabación</h3>
-    <p>En otra terminal, envía la grabación de prueba. Es la misma solicitud que hará el llavero.</p>
+    <p>En otra terminal, en la misma carpeta del paso 1, envía la grabación de prueba. Es la misma solicitud que hará el llavero.</p>
 <pre><span class="k">cd</span> robo-cores3-lite
 <span class="k">python3</span> servidor/testar.py servidor/teste/pergunta.wav</pre>
   </div></div>

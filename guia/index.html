@@ -179,9 +179,9 @@
   <h2>Um rosto no bolso, o cérebro em outro lugar</h2>
   <p class="sub">Uma plaquinha de chaveiro não entende fala nem pensa a resposta sozinha: isso pede modelos grandes. Então ela é só o corpo: ouve, mostra o rosto e fala. O pensamento acontece fora dela.</p>
   <div class="grid g3">
-    <div class="card"><h3>🔑 O corpo, no bolso</h3><p>Uma placa SpotPear com tela de 1,54", microfone, alto-falante, dois botões e capinha de silicone com furo para argola. A criança segura o botão, fala até 15 segundos e solta. Não tem câmera.</p></div>
+    <div class="card"><h3>🔑 O corpo, no bolso</h3><p>Uma placa SpotPear com tela de 1,54", microfone, alto-falante, dois botões e capinha com furo para pendurar. A criança segura o botão, fala até 15 segundos e solta. Não tem câmera.</p></div>
     <div class="card"><h3>🧠 O cérebro, em casa ou na internet</h3><p>Em casa, um programa no computador transforma a fala em texto, pede a resposta a uma IA (o Claude, pago por mensalidade, não por pergunta) e gera a voz ali mesmo. Longe de casa, o desenho prevê um serviço de IA pela internet (OpenRouter), que ainda não foi autorizado nem testado.</p></div>
-    <div class="card"><h3>🔋 Avisa antes de apagar</h3><p>Ele vive na bateria. O desenho: quando ela for acabando, ele mostra olhos de sono, depois pede "me coloca para carregar" e, no fim, diz tchau e dorme. As frases ficam gravadas nele, para o aviso funcionar mesmo sem internet.</p></div>
+    <div class="card"><h3>🔋 Avisa antes de apagar</h3><p>Foi pensado para andar na bateria (se a versão de chaveiro vem com bateria, e de quanto, ainda não foi conferido). O desenho: quando ela for acabando, ele mostra olhos de sono, depois pede "me coloca para carregar" e, no fim, diz tchau e dorme. As frases ficam gravadas nele, para o aviso funcionar mesmo sem internet.</p></div>
   </div>
   <p class="nota"><strong>Seguro por desenho:</strong> argola ou mosquetão, nunca cordão no pescoço da criança sem fecho que se solta. Nenhuma peça pequena que saia. É regra do projeto que o robô não vai pedir nome completo, endereço nem escola. E, no servidor de casa, a IA roda sem nenhuma ferramenta: só escreve texto, não mexe em nada no computador.</p>
 </div></section>
@@ -213,7 +213,7 @@
       <tr><td>Situação</td><td>existe (projeto irmão)</td><td colspan="2">só desenho, nenhuma chamada feita</td></tr>
     </tbody>
   </table></div>
-  <p class="nota">Pela documentação do OpenRouter, um turno inteiro cabe num único pedido: a gravação vai, e a resposta volta em pedaços de áudio e texto, que o chaveiro toca enquanto chegam. Quais modelos de voz estão lá hoje e quanto custam ainda não foi conferido.</p>
+  <p class="nota">Pela <a href="https://openrouter.ai/docs/guides/overview/multimodal/audio" target="_blank" rel="noopener">documentação do OpenRouter</a>, um turno inteiro cabe num único pedido: a gravação vai, e a resposta volta em pedaços de áudio e texto, que o chaveiro toca enquanto chegam. Quais modelos de voz estão lá hoje e quanto custam ainda não foi conferido.</p>
 </div></section>
 
 <section id="pais"><div class="wrap">
@@ -314,7 +314,7 @@
 
   <div class="step"><div class="b">3</div><div>
     <h3>Testar o cérebro com uma gravação</h3>
-    <p>Noutro terminal, manda a gravação de teste. É o mesmo pedido que o chaveiro vai fazer.</p>
+    <p>Noutro terminal, na mesma pasta do passo 1, mande a gravação de teste. É o mesmo pedido que o chaveiro vai fazer.</p>
 <pre><span class="k">cd</span> robo-cores3-lite
 <span class="k">python3</span> servidor/testar.py servidor/teste/pergunta.wav</pre>
   </div></div>
