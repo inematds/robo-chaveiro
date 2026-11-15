@@ -4,7 +4,8 @@ Robozinho de bolso, para levar como chaveiro, que conversa por voz. Placa: SpotP
 "muma", versão "emo"; confirmar na F0). Cérebro: o servidor da opção B do `~/projetos/robo-cores3-lite`.
 Pedido literal do Nei na DEFINICAO.md, seção 1.
 
-- Repo futuro: a decidir com o Nei. **Hoje é só local: sem remoto, sem push, até o Nei mandar.**
+- Repo: `inematds/robo-chaveiro`, público desde 15/11/2026 (ordem do Nei: "pode publicar no portal no inema.robot no
+  lives6"). Guia em `guia/` (PT/EN/ES), publicação registrada em `PUBLICACAO.md`.
 - Autor dos commits: `inematds <inematds@gmail.com>` (configurado só neste repo).
 - O `~/projetos/robo-cores3-lite` é só leitura daqui. Mudar o servidor, a persona ou o `.env` de lá: só com o Nei.
 
