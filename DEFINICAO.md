@@ -244,6 +244,7 @@ gravando a tensão a cada minuto. Dessa curva saem os três degraus:
 - O `claude -p` continua **sem ferramentas**: o que a criança diz nunca vira comando na máquina.
 - O chaveiro guarda a senha do Wi-Fi de casa e o token do servidor. Perdeu o chaveiro: trocar o token.
 - Nenhuma nuvem de terceiros (XiaoZhi, APIs) sem autorização do Nei.
+- Configuração, limites e acompanhamento pelos pais: seção 13.
 
 ## 10. Ideias trazidas do robo-cores3-lite
 
@@ -275,3 +276,80 @@ placa `m5stack_cores3` no compilador, M5Unified.
 - Placa parecida (não é a nossa): https://spotpear.com/wiki/ESP32-S3-1.54inch-LCD-Display-TouchScreen-AI-DeepSeek.html
 - Base de ideias: `~/projetos/robo-cores3-lite/` (DEFINICAO, FAQ, PLANO, servidor/README, MEDIDAS, espera.py,
   arquivo/variante-xiao/DEFINICAO.md)
+
+## 13. Configuração pelo celular e controle dos pais (desenho, 15/11/2026)
+
+Pedido do Nei, 15/11/2026: "uma interface para o web ou celular para configurar o chaveiro, dar nome etc. também
+uma configuração para pais monitorar e limitar". É desenho: nada implementado.
+
+### 13.1 Duas telas, dois momentos
+
+| Tela | Onde roda | Para quê | Funciona sem o PC? |
+|---|---|---|---|
+| **Primeira configuração** | No próprio chaveiro. Na primeira vez, ou segurando o BOOT por 10 s, ele abre uma rede Wi-Fi própria ("Chaveiro-XXXX") e o celular entra numa página dele | Wi-Fi de casa e do celular, endereço do painel, código de pareamento | Sim |
+| **Painel da família** | No PC de casa, pasta `painel/` deste projeto, porta 8771 (livre em 15/11/2026; a 8770 é o servidor de lá). Página que cabe no celular e pode ir para a tela inicial (sem loja de aplicativos) | Nome, personalidade, voz, limites, histórico, bateria | Precisa do PC ligado |
+
+- Celular fora de casa só alcança o painel com túnel até o PC (o mesmo problema da seção 5).
+- **Não verificado:** se a página do chaveiro aguenta TLS. Na rede própria dele, sem internet, vai sem TLS; o
+  código de pareamento curto evita que um vizinho configure.
+- Alternativa à rede própria: configurar por Bluetooth direto do navegador (Web Bluetooth). Funciona no Chrome do
+  Android; no iPhone, não (Safari não tem Web Bluetooth). Fica como opcional.
+- Bibliotecas: o servidor web e a memória de configuração (`WebServer`, `Preferences`) vêm com o core do ESP32;
+  o `WiFiManager` seria biblioteca nova (avisar o Nei antes). O painel usa só Python padrão, sem pacote novo.
+
+### 13.2 O que se configura
+
+| Campo | Exemplo | Quem usa |
+|---|---|---|
+| Nome do chaveiro | "Bolinha" | Persona ("eu sou o Bolinha") e a tela de abertura |
+| Nome de chamada da criança (opcional, só apelido) | "Pipo" | Persona. Nunca nome completo |
+| Faixa de idade | 4–6, 7–9, 10–12, adulto | Persona: tamanho das frases, palavras, assuntos |
+| Personalidade | brincalhão, calmo, curioso, professor | Persona |
+| Voz | uma das vozes do Chatterbox (B, A2-texto) ou do modelo (A1, A2-áudio) | Servidor ou API |
+| Rosto | cor dos olhos, tipo de olhos | Firmware |
+| Cérebro | B, A1, A2 (seção 4) | Firmware |
+| Volume máximo | 0–100% | Firmware |
+
+### 13.3 Controle dos pais
+
+| Controle | Como funciona | Quem garante |
+|---|---|---|
+| **Horários** | Faixas permitidas (ex.: 8h–20h); fora delas o chaveiro mostra o rosto dormindo e diz "agora é hora de descansar" | O chaveiro (relógio pela internet, guardado). Vale nos três cérebros |
+| **Tempo por dia** | Minutos de conversa por dia; perto do fim avisa "só mais um pouquinho hoje" | O chaveiro conta; o painel mostra |
+| **Pausar agora** | Botão no painel; o chaveiro obedece na próxima vez que falar com o painel | Painel + chaveiro |
+| **Assuntos** | Modo seguro sempre ligado; lista de assuntos que os pais não querem (ex.: terror, notícias); a persona da faixa de idade | Persona. Na B e na A2, também o servidor recusa antes da resposta |
+| **Gasto** (A1 e A2) | Teto diário de crédito no OpenRouter | A chave própria do chaveiro (seção 4.2) |
+| **Histórico** | Lista do que foi dito e respondido, **só texto**, com hora | Painel |
+| **Guardar por quanto tempo** | Nada, 1 dia, 7 dias, 30 dias; áudio desligado por padrão | Painel apaga sozinho |
+| **Resumo do dia** | "Hoje: 12 conversas, 18 min, assuntos: dinossauros, contas" | Painel |
+| **Bateria e última conexão** | Nível e hora do último contato | Chaveiro manda ao painel |
+
+- **A criança sabe.** O chaveiro diz, na primeira conversa e quando perguntado: "seus pais podem ver o que a gente
+  conversa". Acompanhar escondido não entra no desenho.
+- **Sem localização.** A placa não tem GPS; o painel não tenta descobrir onde o chaveiro está.
+- **Alerta aos pais** (ex.: a criança fala de machucado ou medo): só aparece em destaque no painel. Mandar
+  mensagem para o celular dos pais (Telegram, e-mail) é API/serviço novo: só com o Nei.
+- **Senha do painel:** uma senha dos pais. O chaveiro fala com o painel pelo token dele, não pela senha.
+- Dados de criança: tudo fica no PC da família. Na A1 e na A2 o texto também passa pelo OpenRouter e pelo
+  provedor do modelo; o painel avisa isso na tela do cérebro.
+
+### 13.4 Como as peças se falam
+
+```
+celular dos pais ──navegador──▶ painel (PC, porta 8771) ──grava──▶ painel/dados/<chaveiro>.json
+                                     ▲            │
+                    histórico, bateria │            │ configuração, limites, "pausar"
+                                     │            ▼
+                                  chaveiro (pede a configuração ao ligar e a cada 5 min em casa)
+                                     │
+                                     └──▶ cérebro B / A1 / A2 (seção 4)
+```
+
+- Rotas do painel (desenho): `GET /v1/config` (o chaveiro baixa nome, persona, limites), `POST /v1/registro` (o
+  chaveiro manda os turnos em texto e a bateria), e as páginas dos pais.
+- **Fora de casa na A1** o chaveiro segue os limites guardados (horário, minutos) e guarda os turnos para mandar
+  quando voltar ao Wi-Fi de casa. O "pausar agora" só chega quando ele alcança o painel.
+- **Na B, a persona do chaveiro precisa chegar ao servidor do `robo-cores3-lite`.** Hoje ele usa um
+  `persona.txt` fixo. Caminhos: o servidor escolher a persona pelo `X-Robo-Id`, ou ler a do painel. Os dois são
+  mudança no outro projeto: só com o Nei.
+- Vários chaveiros (irmãos): um arquivo por chaveiro, cada um com nome, limites e histórico próprios.

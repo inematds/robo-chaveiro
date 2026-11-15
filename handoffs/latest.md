@@ -19,6 +19,11 @@ construir este projeto para as crianças e pessoas levarem como chaveiro". Reapr
   PLANO: novas fases F2b (bateria) e F3b (cérebro A).
 - A wiki do muma não lista pino de bateria. Conferir no esquema V1/V2 na F1.
 
+- 3ª rodada: desenho da configuração pelo celular (rede própria do chaveiro na 1ª vez + painel da família no PC,
+  porta 8771) e do controle dos pais (horário, minutos por dia, pausar, assuntos, gasto, histórico só em texto,
+  retenção, a criança sabe que os pais veem). DEFINICAO seção 13, PLANO fase F2c. O painel pode ser feito antes
+  da placa chegar.
+
 ## O que NÃO fazer
 - Não ativar o XiaoZhi (nuvem de terceiros) nem configurar o firmware de fábrica no Wi-Fi sem o Nei.
 - Não chamar nenhuma API externa. Opção A só com autorização escrita do Nei (serviço e finalidade).
@@ -48,6 +53,8 @@ construir este projeto para as crianças e pessoas levarem como chaveiro". Reapr
 5. Idade das crianças e se as gravações da conversa ficam guardadas no PC (e por quanto tempo).
 6. Cérebro A: o Nei disse "provavelmente usaremos openrouter" (15/11) — intenção, não autorização. Falta: autorizar por
    escrito (serviço e finalidade) e escolher A1 (direto), A2-texto ou A2-áudio. DEFINICAO 4.2 e 4.3.
+7. Painel: quem são os pais que usam (só a família do Nei ou outras famílias)? Alerta aos pais por mensagem
+   (Telegram/e-mail) entra? Histórico guardado por quanto tempo por padrão?
 
 ## Próxima ação exata
 Quando a placa chegar: F0 do PLANO.md (ligar sem ativar o XiaoZhi, `arduino-cli board list`, fotografar a placa

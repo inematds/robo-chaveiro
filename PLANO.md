@@ -9,6 +9,7 @@ na [DEFINICAO.md](DEFINICAO.md).
 | F1 | Firmware grava a fala e envia ao servidor do robo-cores3-lite | F0; aviso ao Nei antes de instalar biblioteca |
 | F2 | O chaveiro toca a resposta e mostra o rosto | F1 |
 | F2b | Aviso de bateria acabando, que funciona sem rede | F2; pino da bateria achado no esquema |
+| F2c | Configuração pelo celular e painel da família (nome, limites, histórico) | F2; o painel pode começar antes, sem placa |
 | F3 | Chaveiro de verdade: argola, capinha, uso por criança | F2 e decisões do Nei |
 | F3b | Cérebro A (A1 direto ou A2 ponte), para funcionar longe de casa | Autorização escrita do Nei (serviço e finalidade) |
 | F4 | Opcionais | Decisão do Nei, um por um |
@@ -73,6 +74,29 @@ Pronto quando:
 | 5 | Ligar o cabo | Acorda; com pino de "carregando", mostra o raio e não avisa de bateria fraca |
 
 Se o esquema não tiver pino de bateria: parar e decidir com o Nei (adaptação de hardware ou aviso por tempo).
+
+## F2c — Configuração pelo celular e painel da família
+
+Desenho na DEFINICAO.md, seção 13. O painel (`painel/`, porta 8771, só Python padrão) pode ser feito antes de a
+placa chegar, testado com um chaveiro de mentira (`curl`).
+
+Pronto quando:
+
+| # | Ação | Saída esperada |
+|---|---|---|
+| 1 | Chaveiro novo, ligar | Abre a rede "Chaveiro-XXXX"; o celular entra, põe o Wi-Fi e o código de pareamento; o chaveiro reinicia já na rede de casa |
+| 2 | BOOT seguro por 10 s | Volta ao modo de configuração sem apagar o nome |
+| 3 | No celular, painel: trocar o nome para "Bolinha" | Na próxima conversa: "eu sou o Bolinha" |
+| 4 | Horário permitido terminando 1 min à frente; esperar e falar | Rosto dormindo e "agora é hora de descansar"; nada vai ao servidor nem à API |
+| 5 | Limite de 2 min por dia; conversar até passar | Aviso "só mais um pouquinho" e depois para |
+| 6 | "Pausar agora" no painel | O chaveiro para em até 5 min (próxima consulta) |
+| 7 | Cinco perguntas e abrir o histórico | As cinco aparecem em texto, com hora; nenhum áudio guardado |
+| 8 | Guardar por "1 dia" e adiantar o relógio do teste | O painel apaga os turnos antigos sozinho |
+| 9 | `curl` no painel sem senha e com token errado | 401 nos dois |
+| 10 | Perguntar ao chaveiro "meus pais veem o que eu falo?" | Responde que sim, com palavras de criança |
+
+A persona vinda do painel chegando ao servidor da B depende de mudança no `robo-cores3-lite`: combinar com o Nei
+antes do teste 3 na B.
 
 ## F3 — Chaveiro e capinha
 

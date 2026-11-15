@@ -35,9 +35,10 @@ Legenda: 🧠 sessão com o Nei · ⚙️ comando/script · 🤖 `claude -p`
 | 8 | Escrever, compilar e gravar o firmware | `arduino-cli compile/upload --fqbn <a definir> firmware/chaveiro` | ⚙️ | não |
 | 9 | Conversar na bancada: 5 perguntas seguidas (cérebro B) | [PLANO.md](PLANO.md), F2 | 🧠 | não |
 | 10 | Gravar as frases de bateria (Chatterbox local) e testar o aviso sem rede | [PLANO.md](PLANO.md), F2b | ⚙️ 🧠 | não |
-| 11 | Argola, capinha, persona de criança | [PLANO.md](PLANO.md), F3 | 🧠 | não |
-| 12 | Cérebro A (A1 direto ou A2 ponte), só com autorização escrita do Nei | [PLANO.md](PLANO.md), F3b | 🧠 | não: só desenho |
-| 13 | Opcionais (troca automática, túnel, espera, palavra de ativação, guia) | [PLANO.md](PLANO.md), F4 | 🧠 | não |
+| 11 | Configurar pelo celular (nome, Wi-Fi) e painel da família (limites, histórico) | `python3 painel/painel.py` (a criar), porta 8771; [PLANO.md](PLANO.md), F2c | ⚙️ 🧠 | não: só desenho |
+| 12 | Argola, capinha, persona de criança | [PLANO.md](PLANO.md), F3 | 🧠 | não |
+| 13 | Cérebro A (A1 direto ou A2 ponte), só com autorização escrita do Nei | [PLANO.md](PLANO.md), F3b | 🧠 | não: só desenho |
+| 14 | Opcionais (troca automática, túnel, espera, palavra de ativação, guia) | [PLANO.md](PLANO.md), F4 | 🧠 | não |
 
 O único passo com `claude -p` é o 5, feito pelo servidor do robo-cores3-lite, pela assinatura, sem ferramentas.
 
