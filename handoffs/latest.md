@@ -24,12 +24,15 @@ construir este projeto para as crianças e pessoas levarem como chaveiro". Reapr
   retenção, a criança sabe que os pais veem). DEFINICAO seção 13, PLANO fase F2c. O painel pode ser feito antes
   da placa chegar.
 
+- 4ª rodada (15/11, ordem do Nei "pode publicar no portal no inema.robot no lives6"): repo público
+  inematds/robo-chaveiro, guia PT/EN/ES no Pages, portal (4351030/e99681c/61f0763), tópico 3005 no INEMA.ROBOT, vídeo
+  lives6 em produção (fase 2 pelo vigia continua). Tudo em PUBLICACAO.md.
+
 ## O que NÃO fazer
 - Não ativar o XiaoZhi (nuvem de terceiros) nem configurar o firmware de fábrica no Wi-Fi sem o Nei.
 - Não chamar nenhuma API externa. Opção A só com autorização escrita do Nei (serviço e finalidade).
 - Não editar o `~/projetos/robo-cores3-lite` nem o `~/projetos/inemavox`.
 - Não instalar biblioteca, `esptool`, PlatformIO, ESP-IDF ou modelo sem avisar o Nei.
-- Não criar repo no GitHub nem dar push.
 
 ## Decisões
 - Cérebro: servidor da opção B do robo-cores3-lite, usado onde está, com `X-Robo-Id: chaveiro-1`.

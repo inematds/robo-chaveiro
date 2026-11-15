@@ -3,8 +3,8 @@
 Ordem do Nei (15/11/2026): "pode publicar no portal no inema.robot no lives6".
 
 portal: feito
-telegram: pendente
-lives6: pendente
+telegram: feito 3005
+lives6: em produção (cadeia explicavideo; fase 2 pelo vigia continua, msg 4781 no v3)
 
 ## Guia (GitHub Pages, via Actions, branch main)
 
@@ -35,3 +35,21 @@ lives6: pendente
 - No inema.club aparece só no quadro "Últimas Atualizações de Projetos"; no PRO entra no catálogo e na busca.
 - O teste `titulos-quadro` do portal já falhava antes desta publicação, por um título de vídeo de 13/11 com 101
   caracteres (não é deste projeto).
+
+## Telegram (grupo INEMA.ROBOT)
+
+- Tópico: **3005** — https://t.me/c/2412734678/3005
+- Título: "Robô Chaveiro - Seu filho leva no bolso um robozinho que conversa, e você decide quando e sobre o quê"
+- Mensagens 3006 a 3021; lançado no MENU (https://t.me/c/2412734678/2270, msg 3022).
+- Texto: `~/projetos/output/posts-telegram/2026-11-15-robo-chaveiro.md`; capa:
+  `~/projetos/output/posts-telegram/capas/robo-chaveiro.jpg` (a 1ª versão, com robô humanoide, ficou como `-v1` e não foi usada).
+- Para responder no mesmo tópico: `postar_topico.py --grupo INEMA.ROBOT --topico 3005 ...` (skill `postar-telegram`).
+- Nada no Telegram pode ser apagado sem aprovação individual do Nei.
+
+## Vídeo no lives6 (em produção)
+
+- Pasta: `~/projetos/explicavideos/textos/robo-chaveiro/` (pedido.txt, regras.md, FATOS.md, roda.sh, CONTINUAR.md).
+- Cadeia `roda.sh` na unit `ev-robo-chaveiro` (iniciada 15/11/2026 02:50): ficha → avatar no estúdio HeyGen → visual →
+  entrega (16:9 e, 1 h depois, o 9:16 no lives6). Andamento: `tail ~/projetos/explicavideos/textos/robo-chaveiro/cadeia.log`.
+- Fase 2 (vigia `continua`, nome `ev2-robo-chaveiro`): põe o vídeo no guia (3 idiomas + READMEs), card de vídeo no
+  portal e resposta no tópico 3005.
