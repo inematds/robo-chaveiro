@@ -18,6 +18,7 @@ Nenhum dos dois está implementado, e nenhuma API foi chamada.
 | Regras do projeto | [CLAUDE.md](CLAUDE.md) |
 | Retomar o trabalho | [handoffs/latest.md](handoffs/latest.md) |
 | Fotos do anúncio e ficha da placa | [referencias/](referencias/) |
+| Ideia para depois: corpos de boneco e bicho com o chaveiro como rosto | [ideias/corpos/PROPOSTAS.md](ideias/corpos/PROPOSTAS.md) |
 
 ## O processo, do início ao fim
 

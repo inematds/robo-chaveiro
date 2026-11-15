@@ -353,3 +353,18 @@ celular dos pais ──navegador──▶ painel (PC, porta 8771) ──grava─
   `persona.txt` fixo. Caminhos: o servidor escolher a persona pelo `X-Robo-Id`, ou ler a do painel. Os dois são
   mudança no outro projeto: só com o Nei.
 - Vários chaveiros (irmãos): um arquivo por chaveiro, cada um com nome, limites e histórico próprios.
+
+## 14. Ideia para depois: corpos de boneco e bicho
+
+Pedido do Nei, 15/11/2026: "desenhar bonecos ou animais onde o chaveiro entra como o rosto (...) crie apenas
+imagens com o codex destas ideias e o próprio codex pode pesquisar e propor". Feito pelo Codex (pesquisa na web
+e `image_gen`, pela assinatura), com o pedido em `ideias/corpos/PEDIDO-CODEX.md`.
+
+- 8 propostas originais e a foto da família em `ideias/corpos/` (PNG 1254 × 1254, sem texto, conferidos a olho):
+  Capi-Bolso (capivara de pelúcia), Tatu-Casca, Perereca Pingo, Arara Asa (crochê), Nuvim (nuvem macia), Trilho
+  (boneco de capuz), Orbe Robô (berço impresso em 3D), Ipê Miúdo (madeira e feltro).
+- Recomendação do Codex: começar pelo **Orbe Robô**, de mesa, para acertar encaixe, botões, cabo e som; depois a
+  **Capi-Bolso**; para 3–6 anos, o **Nuvim**.
+- Regras comuns de lá: sem ímã, sem olho de plástico ou peça pequena, falante e microfone com saída direta,
+  botões e USB-C acessíveis, carregar fora do corpo. Custos e tempos de lá são estimativa do Codex, não medida.
+- Não desenvolver agora. Fica na F4 do PLANO.

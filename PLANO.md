@@ -129,6 +129,7 @@ Pronto quando:
 | Opcional | Critério de pronto |
 |---|---|
 | Frases de espera tocadas pela placa | Toca uma frase da banca em menos de 1 s depois de soltar o botão; não repete as 8 últimas |
+| Corpos de boneco e bicho (o chaveiro vira o rosto) | Ideias e imagens em `ideias/corpos/PROPOSTAS.md` (8 propostas, Codex, 15/11/2026). Pronto: um corpo feito na mão, testado com os 6 passos de "Antes de transformar ideia em brinquedo" de lá (encaixe, som dentro e fora, botões, temperatura, puxão) |
 | Troca automática de cérebro | Rede de casa à vista → B; senão → A1. Cinco trocas de rede sem reiniciar |
 | Cérebro B fora de casa por túnel | Ferramenta nova avisada ao Nei; 5 perguntas pelo celular respondidas pelo PC de casa |
 | Palavra de ativação | Modelo local novo: só com aprovação; 9 de 10 a 50 cm |
